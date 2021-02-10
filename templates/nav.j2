@@ -1,0 +1,48 @@
+<header class="mdl-layout__header mdl-shadow--4dp mdl-color--deep-purple-400 mdl-layout__header--seamed"
+    style="visibility: visible !important; display:block">
+    <div class="mdl-layout__header-row">
+        {# {%if title%}
+            <h4>{{title}}</h4>
+        {%endif%} #}
+        <div class=" mdl-layout-spacer"></div>
+        <div class="mdl-navigation">
+            <span contenteditable class=" mdl-textfield__input" id='search_input'>
+        </div>
+        <div style="width: 5px;"></div>
+        <form id="search" method="GET" action="/search">
+            <input type="text" value="" hidden name="q" id='real_search_input'>
+            <button onclick="event.preventDefault(); search()"
+                class=" mdl-button mdl-js-button mdl-js-ripple-effect mdl-color--white" id="search_btn">Искать</button>
+        </form>
+    </div>
+</header>
+<div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Меню</span>
+    <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="/">Главная</a>
+        <a class="mdl-navigation__link" href="/subscriptions">Отслеживаемые url</a>
+
+        <nav class="mdl-navigation">
+            <a class=" mdl-navigation__link" href="/search?q=type:video">Видео</a>
+            <a class=" mdl-navigation__link" href="/search?q=type:music">Музыка</a>
+            <a class=" mdl-navigation__link" href="/search?q=type:photo">Фото</a>
+            <a class=" mdl-navigation__link" href="/search?q=type:other">Прочее</a>
+        </nav>
+    </nav>
+</div>
+
+<script>
+    var input = document.getElementById("search_input");
+    input.addEventListener("keydown", function (event) {
+        if (event.keyCode === 13) {
+            event.preventDefault()
+            document.getElementById("search_btn").click();
+        }
+    });
+
+    function search() {
+        seacrh_val = $("#search_input")[0].textContent
+        $('#real_search_input').val(seacrh_val)
+        $('#search').submit()
+    }
+</script>

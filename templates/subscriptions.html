@@ -1,0 +1,103 @@
+{%extends 'base.j2'%}
+
+{%block content%}
+<div class=" mdl-grid">
+  <div class=" mdl-layout-spacer"></div>
+  <div class=" mdl-cell mdl-cell--8-col mdl-cell--middle">
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell--12-col">
+      <thead>
+        <tr>
+          <th class="mdl-data-table__cell--numeric">ID</th>
+          <th class="mdl-data-table__cell--non-numeric">Ссылка</th>
+          <th>
+            <div class=" mdl-grid mdl-grid--no-spacing">
+            <div class="mdl-cell mdl-cell--2-col"></div>
+            <div class="mdl-cell">
+              Загрузчик
+            </div>
+            <div class="mdl-cell mdl-cell--2-col"></div>
+          </div></th>
+          <th>
+            <div class=" mdl-grid mdl-grid--no-spacing">
+              <div class="mdl-cell mdl-cell--2-col"></div>
+              <div class="mdl-cell">
+                Проверять обновления
+              </div>
+              <div class="mdl-cell mdl-cell--2-col"></div>
+            </div>
+          </th>
+          <th class="mdl-data-table__cell--numeric">
+            <div class=" mdl-grid mdl-grid--no-spacing">
+              <!-- <div class="mdl-cell mdl-cell--6-col"></div> -->
+              <div class=" mdl-layout-spacer"></div>
+              <div class="mdl-cell">
+                Действия
+              </div>
+              <div class="mdl-cell mdl-cell--2-col"></div>
+            </div>
+            
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {%for i in range(10)%}
+        <tr>
+          <td class="mdl-data-table__cell--numeric">{{i}}</td>
+          <td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
+          <td>
+            <div class=" mdl-grid mdl-grid--no-spacing">
+              <div class="mdl-cell mdl-cell--2-col"></div>
+              <div class="mdl-cell">
+                {%if i%3 %}Youtube-dl{%else%}Direct Download{%endif%}
+              </div>
+              <div class="mdl-cell mdl-cell--2-col"></div>
+            </div>
+            </td>
+          <td>
+            <div class=" mdl-grid mdl-grid--no-spacing">
+              <div class="mdl-cell mdl-cell--5-col"></div>
+              <div class="mdl-cell mdl-cell--1-col">
+                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-{{i}}">
+                  <input type="checkbox" onchange="toggle_updates({{i}})" id="checkbox-{{i}}"
+                    class="mdl-checkbox__input" checked>
+                </label>
+              </div>
+            </div>
+          </td>
+          <td class="mdl-data-table__cell--numeric">
+            <button onclick="window.location.href='/editor/edit/{{i}}'"
+              class="mdl-button mdl-js-button mdl-js-ripple-effect">
+              <i class="material-icons">edit</i>
+            </button>
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect" onclick="delete_link({{i}})">
+              <i class="material-icons">delete</i>
+            </button>
+          </td>
+        </tr>
+        {%endfor%}
+      </tbody>
+    </table>
+  </div>
+  <div class=" mdl-layout-spacer"></div>
+</div>
+<script>
+
+  function delete_link(id) {
+    xhr = new XMLHttpRequest()
+    xhr.open("DELETE", "/api/link/delete/" + id, true)
+    xhr.onload = function () {
+      window.location = window.location
+    }
+    xhr.send()
+  }
+
+  function toggle_updates(id, state) {
+    xhr = new XMLHttpRequest()
+    xhr.open("PATCH", "/api/link/toggle_updates/" + id, true)
+    xhr.onload = function () {
+      window.location = window.location
+    }
+    xhr.send()
+  }
+</script>
+{%endblock%}

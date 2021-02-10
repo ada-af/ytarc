@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ytarchiver</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-control" content="public, max-age=604800">
+    <meta name="referrer" content="never">
+    <meta name="referrer" content="no-referrer">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/material.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/material-icons.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
+</head>
+
+
+<body>
+    <div class="mdl-layout mdl-js-layout">
+        {%include 'nav.j2'%}
+        <main class="mdl-layout__content">
+            {%block content%}{%endblock%}
+        </main>
+    </div>
+
+    <a href="/editor/new">
+        <button id="single"
+            class="mdl-button mdl-button--fab mdl-button--colored mdl-color--blue-600 plusbtn">1</button>
+    </a>
+    <a href="/editor/new/bulk"><button id="bulk"
+            class="mdl-button mdl-button--fab mdl-button--colored mdl-color--blue-600 plusbtn">∞</button></a>
+    <a href="/upload">
+        <button id="file_upload" class="mdl-button mdl-button--fab mdl-button--colored mdl-color--blue-600 plusbtn">
+            <i class=" material-icons">file_upload</i>
+        </button>
+    </a>
+    <button id='add' onclick="toggle_btns(['single', 'bulk', 'file_upload', 'add'])"
+        class="mdl-button mdl-button--fab mdl-button--colored plusbtn">+</button>
+    </div>
+    
+    <script>
+        function toggle_btns(button_list) {
+            for (k in button_list) {
+                document.getElementById(button_list[k]).classList.toggle('toggled-choice')
+            }
+        }
+    </script>
+
+</body >
+            <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/material.js') }}"></script>
+
+
+</html>
