@@ -109,3 +109,7 @@
 .float-right {
     float: right !important;
 }
+
+.hidden {
+    display: none;
+}

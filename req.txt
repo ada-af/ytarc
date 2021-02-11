@@ -1,0 +1,3 @@
+pyfladesk
+flask
+flask-sqlalchemy

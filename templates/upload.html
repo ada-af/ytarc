@@ -5,7 +5,7 @@
   <div class="mdl-layout-spacer"></div>
   <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col">
     <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text">Новый url</h2>
+      <h2 class="mdl-card__title-text">Загрузка файла</h2>
     </div>
     <div class=" mdl-card__subtitle-text mdl-grid">
       <form action="#" class="mdl-cell mdl-cell--10-col mdl-grid">
@@ -71,18 +71,4 @@
   </div>
   <div class=" mdl-layout-spacer"></div>
 </div>
-<script>
-  document.getElementsByName('driver')[0].addEventListener('click', function () {
-    if (document.getElementsByName('driver')[0].checked) {
-      document.getElementById('driopt-i').classList.add('hidden')
-      document.getElementById('driopt-t').classList.add('hidden')
-    }
-  })
-    document.getElementsByName('driver')[1].addEventListener('click', function () {
-      if (document.getElementsByName('driver')[1].checked) {
-        document.getElementById('driopt-i').classList.remove('hidden')
-        document.getElementById('driopt-t').classList.remove('hidden')
-      }
-    })
-</script>
 {%endblock%}
