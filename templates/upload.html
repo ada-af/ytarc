@@ -9,18 +9,11 @@
     </div>
     <div class=" mdl-card__subtitle-text mdl-grid">
       <form action="#" class="mdl-cell mdl-cell--10-col mdl-grid">
-        <h5>URL</h5>
-        {%if bulk%}
+        <h5>Выбор файла</h5>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
           <textarea class="mdl-textfield__input" type="text" rows= "3" name='url' id="url" ></textarea>
           <label class="mdl-textfield__label" for="url">URLs (one per line)</label>
         </div>
-        {%else%}
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
-          <input class="mdl-textfield__input" autocomplete="off" type="text" name='url' id="url">
-          <label class="mdl-textfield__label" for="url">URL</label>
-        </div>
-        {%endif%}
 
         <div
           class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select mdl-cell mdl-cell--12-col">

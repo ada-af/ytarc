@@ -21,8 +21,19 @@
     <nav class="mdl-navigation">
         <a class="mdl-navigation__link" href="/">Главная</a>
         <a class="mdl-navigation__link" href="/subscriptions">Отслеживаемые url</a>
+        <a class="mdl-navigation__link" href="/update">Обновить библиотеку
+            {%if update_status()%}
+            <div id="p1" class="mdl-progress mdl-js-progress"></div>
+            <script>
+                document.querySelector('#p1').addEventListener('mdl-componentupgraded', function () {
+                    this.MaterialProgress.setProgress({{ update_status() }});
+            });
+            </script>
+            {%endif%}
+        </a>
 
         <nav class="mdl-navigation">
+            <span class=" mdl-layout-title" style="padding-left: 40px; line-height: 64px">Файлы</span>
             <a class=" mdl-navigation__link" href="/search?q=type:video">Видео</a>
             <a class=" mdl-navigation__link" href="/search?q=type:music">Музыка</a>
             <a class=" mdl-navigation__link" href="/search?q=type:photo">Фото</a>

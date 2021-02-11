@@ -8,65 +8,77 @@
       <h2 class="mdl-card__title-text">Новый url</h2>
     </div>
     <div class=" mdl-card__subtitle-text mdl-grid">
-      <form action="#" class="mdl-cell mdl-cell--10-col mdl-grid">
-        <h5>URL</h5>
-        {%if bulk%}
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
-          <textarea class="mdl-textfield__input" type="text" rows= "3" name='url' id="url" ></textarea>
-          <label class="mdl-textfield__label" for="url">URLs (one per line)</label>
+      <form id='url_form' method="POST" class="mdl-cell mdl-cell--12-col mdl-grid">
+        <div class="mdl-cell mdl-cell--12-col mdl-grid">
+          {%if bulk%}
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+            <textarea class="mdl-textfield__input" type="text" rows="3" name='url' id="url"></textarea>
+            <label class="mdl-textfield__label" for="url">URLs (one per line)</label>
+          </div>
+          {%else%}
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+            <input class="mdl-textfield__input" autocomplete="off" type="text" name='url' id="url" value="{%if lo%}{{lo.link}}{%endif%}">
+            <label class="mdl-textfield__label" for="url">URL</label>
+          </div>
+          {%endif%}
         </div>
-        {%else%}
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
-          <input class="mdl-textfield__input" autocomplete="off" type="text" name='url' id="url">
-          <label class="mdl-textfield__label" for="url">URL</label>
-        </div>
-        {%endif%}
 
-        <div
-          class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select mdl-cell mdl-cell--12-col">
-          <input type="text" value="" class="mdl-textfield__input" id="linktype" readonly>
-          <input type="hidden" value="" name="linktype">
-          <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
-          <label for="linktype" class="mdl-textfield__label">Link Type</label>
-          <ul for="linktype" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
-            <li class="mdl-menu__item" data-val="music">Music</li>
-            <li class="mdl-menu__item" data-val="video">Video</li>
-            <li class="mdl-menu__item" data-val="photo">Photo</li>
-            <li class="mdl-menu__item" data-val="other">Other</li>
-          </ul>
-        </div>
-        <div class=" mdl-cell--12-col mdl-cell">
-          <h5>Driver</h5>
-          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-ddl">
-            <input type="radio" id="option-ddl" class="mdl-radio__button" name="driver" value="ddl" checked>
-            <span class="mdl-radio__label">Direct Download</span>
-          </label>
+        <div class="mdl-cell mdl-cell--12-col mdl-grid">
+          <div
+            class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select mdl-cell mdl-cell--8-col">
+            <input type="text" value="" class="mdl-textfield__input" id="linktype" readonly>
+            <input type="hidden" value="{%if lo%}{{lo.linktype}}{%endif%}" name="linktype">
+            <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
+            <label for="linktype" class="mdl-textfield__label">Link Type</label>
+            <ul for="linktype" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+              <li class="mdl-menu__item" data-val="music" {%if lo is not defined%}{%elif lo.linktype == 'music'%}data-selected="true"{%endif%}>Music</li>
+              <li class="mdl-menu__item" data-val="video" {%if lo is not defined%}{%elif lo.linktype == 'video'%}data-selected="true"{%endif%}>Video</li>
+              <li class="mdl-menu__item" data-val="photo" {%if lo is not defined%}{%elif lo.linktype == 'photo'%}data-selected="true"{%endif%}>Photo</li>
+              <li class="mdl-menu__item" data-val="other" {%if lo is not defined%}data-selected="true"{%elif lo.linktype == 'other'%}data-selected="true"{%endif%}>Other</li>
+            </ul>
+          </div>
           <div class=" mdl-layout-spacer"></div>
-          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-ytdl">
-            <input type="radio" id="option-ytdl" class="mdl-radio__button" name="driver" value="ytdl">
-            <span class="mdl-radio__label">Youtube-dl</span>
-          </label>
-          <h5 id='driopt-t' class="hidden">Driver options</h5>
-          <div id='driopt-i' class="hidden mdl-cell--12-col mdl-grid mdl-grid--no-spacing">
+          <div class="mdl-cell">
+            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="chkupdates">
+              <input type="checkbox" id="chkupdates" class="mdl-switch__input" name='chkupdates' {%if lo is not defined%}checked{%elif lo.check_updates%}checked{%endif%}>
+              <span class="mdl-switch__label">Check updates</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="mdl-cell mdl-cell--12-col mdl-grid">
+          <div class=" mdl-cell--12-col mdl-cell">
+            <h5>Driver</h5>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-ddl">
+              <input type="radio" id="option-ddl" class="mdl-radio__button" name="driver" value="ddl" {%if lo is not defined%}checked{%elif lo.driver == 'ddl'%}checked{%endif%}>
+              <span class="mdl-radio__label">Direct Download</span>
+            </label>
+            <div class=" mdl-layout-spacer"></div>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-ytdl">
+              <input type="radio" id="option-ytdl" class="mdl-radio__button" name="driver" value="ytdl" {%if lo is not defined%}{%elif lo.driver == 'ytdl'%}checked{%endif%}>
+              <span class="mdl-radio__label">Youtube-dl</span>
+            </label>
+          </div>
+        </div>
+
+
+        <div class="mdl-cell mdl-cell--12-col mdl-grid">
+          <div id='driopt-i' class="{%if lo is not defined%}hidden{%elif lo.driver == 'ddl'%}hidden{%endif%} mdl-cell--12-col mdl-cell mdl-grid mdl-grid--no-spacing">
+            <h5>Driver options</h5>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
-              <input class="mdl-textfield__input" type="text" id="driveroptions" name="driveroptions">
+              <input class="mdl-textfield__input" value="{%if lo%}{{', '.join(lo.driver_options)}}{%endif%}" type="text" id="driveroptions" name="driveroptions">
               <label class="mdl-textfield__label" for="driveroptions">Driver options</label>
             </div>
             <span class="mdl-cell mdl-cell--12-col">Comma-separated list of options</span>
-
           </div>
-          <h5>Check updates</h5>
-          <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="chkupdates">
-            <input type="checkbox" id="chkupdates" class="mdl-switch__input" checked>
-            <span class="mdl-switch__label">Check updates</span>
-          </label>
         </div>
       </form>
     </div>
     <div class="mdl-card__actions mdl-card--border">
-      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect float-right">
+      <button type="submit" form="url_form"
+        class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect float-right">
         Сохранить
-      </a>
+      </button>
     </div>
   </div>
   <div class=" mdl-layout-spacer"></div>
@@ -75,14 +87,12 @@
   document.getElementsByName('driver')[0].addEventListener('click', function () {
     if (document.getElementsByName('driver')[0].checked) {
       document.getElementById('driopt-i').classList.add('hidden')
-      document.getElementById('driopt-t').classList.add('hidden')
     }
   })
-    document.getElementsByName('driver')[1].addEventListener('click', function () {
-      if (document.getElementsByName('driver')[1].checked) {
-        document.getElementById('driopt-i').classList.remove('hidden')
-        document.getElementById('driopt-t').classList.remove('hidden')
-      }
-    })
+  document.getElementsByName('driver')[1].addEventListener('click', function () {
+    if (document.getElementsByName('driver')[1].checked) {
+      document.getElementById('driopt-i').classList.remove('hidden')
+    }
+  })
 </script>
 {%endblock%}

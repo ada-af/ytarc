@@ -3,7 +3,7 @@
 {%block content%}
 <div class=" mdl-grid">
   <div class=" mdl-layout-spacer"></div>
-  <div class=" mdl-cell mdl-cell--8-col mdl-cell--middle">
+  <div class=" mdl-cell mdl-cell--7-col mdl-cell--middle">
     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell--12-col">
       <thead>
         <tr>
@@ -40,15 +40,15 @@
         </tr>
       </thead>
       <tbody>
-        {%for i in range(10)%}
+        {%for i in los%}
         <tr>
-          <td class="mdl-data-table__cell--numeric">{{i}}</td>
-          <td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
+          <td class="mdl-data-table__cell--numeric">{{i.id}}</td>
+          <td class="mdl-data-table__cell--non-numeric">{{i.link}}</td>
           <td>
             <div class=" mdl-grid mdl-grid--no-spacing">
               <div class="mdl-cell mdl-cell--2-col"></div>
               <div class="mdl-cell">
-                {%if i%3 %}Youtube-dl{%else%}Direct Download{%endif%}
+                {%if i.driver=='ytdl' %}Youtube-dl{%else%}Direct Download{%endif%}
               </div>
               <div class="mdl-cell mdl-cell--2-col"></div>
             </div>
@@ -57,19 +57,19 @@
             <div class=" mdl-grid mdl-grid--no-spacing">
               <div class="mdl-cell mdl-cell--5-col"></div>
               <div class="mdl-cell mdl-cell--1-col">
-                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-{{i}}">
-                  <input type="checkbox" onchange="toggle_updates({{i}})" id="checkbox-{{i}}"
-                    class="mdl-checkbox__input" checked>
+                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-{{i.id}}">
+                  <input type="checkbox" onchange="toggle_updates({{i.id}})" id="checkbox-{{i.id}}"
+                    class="mdl-checkbox__input" {%if i.check_updates%}checked{%endif%}>
                 </label>
               </div>
             </div>
           </td>
           <td class="mdl-data-table__cell--numeric">
-            <button onclick="window.location.href='/editor/edit/{{i}}'"
+            <button onclick="window.location.href='/editor/edit/{{i.id}}'"
               class="mdl-button mdl-js-button mdl-js-ripple-effect">
               <i class="material-icons">edit</i>
             </button>
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect" onclick="delete_link({{i}})">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect" onclick="delete_link({{i.id}})">
               <i class="material-icons">delete</i>
             </button>
           </td>
