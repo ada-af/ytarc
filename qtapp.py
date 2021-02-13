@@ -10,4 +10,4 @@ from pyfladesk import init_gui
 if __name__ == '__main__':
     db.create_all()
     # App.run(debug=True, host='0.0.0.0')
-    init_gui(App, icon="static/images/icon.png", window_title="YtArchiver")
+    init_gui(App, icon="static/images/icon.png", window_title="RoverStor")
