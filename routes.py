@@ -17,7 +17,7 @@ def favicon():
 
 @App.route("/")
 def index():
-    return render_template('index.html')
+    return render_template('index.html', links=LinkObject.query.order_by(LinkObject.id.desc()).all()[:5])
 
 @App.route('/subscriptions')
 def subscriptions_list():
@@ -31,7 +31,7 @@ def edit_linkobject(id):
     else:
         lo = LinkObject.query.get(id)
         lo.link = request.form['url']
-        lo.check_updates = True if request.form['chkupdates'] == 'on' else False
+        lo.check_updates = True if request.form.get('chkupdates') == 'on' else False
         lo.driver = request.form['driver']
         lo.linktype = request.form['linktype']
         lo.driver_options = [x.strip() for x in request.form['driveroptions'].split(',')]
@@ -48,7 +48,7 @@ def editor_edit():
             return redirect("/editor/new")
         lo = LinkObject()
         lo.link = request.form['url']
-        lo.check_updates = True if request.form['chkupdates'] == 'on' else False
+        lo.check_updates = True if request.form.get('chkupdates') == 'on' else False
         lo.driver = request.form['driver']
         lo.linktype = request.form['linktype']
         lo.driver_options = [x.strip() for x in request.form['driveroptions'].split(',')]
@@ -68,7 +68,7 @@ def editor_edit_bulk():
         for i in links:
             lo = LinkObject()
             lo.link = i
-            lo.check_updates = True if request.form['chkupdates'] == 'on' else False
+            lo.check_updates = True if request.form.get('chkupdates') == 'on' else False
             lo.driver = request.form['driver']
             lo.linktype = request.form['linktype']
             lo.driver_options = [x.strip() for x in request.form['driveroptions'].split(',')]

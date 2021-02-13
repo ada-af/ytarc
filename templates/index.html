@@ -5,7 +5,7 @@
     <h4>Последние добавленные файлы</h4>
     <div class="mdl-grid mdl-cell--12-col">
 
-        {%for i in range(7)%}
+        {%for i in range(5)%}
         <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--2-col">
             <div class="mdl-card__title mdl-card--expand" style="color: #fff; background: url('https://da.mcilya.xyz/brrrr.png') center / contain no-repeat space #46B6AC;">
             </div>
@@ -20,29 +20,44 @@
                     <div class=" mdl-layout-spacer"></div>
 
                     <div class="mdl-cell mdl-cell--1-col" style="transform: translateX(-8px)">
-                        <button id="demo-menu-top-right-{{i}}" class="mdl-button mdl-js-button mdl-button--icon">
+                        <button id="menu-top-right-{{i}}" class="mdl-button mdl-js-button mdl-button--icon">
                             <abbr title="Открыть в плеере"><i class="material-icons">play_arrow</i></abbr>
                         </button>
                     </div>
-
-                    <!-- <div style="z-index: 667; transform: translateX(-8px)">
-                        <ul class="mdl-menu mdl-menu--top-right mdl-js-menu mdl-js-ripple-effect"
-                            data-mdl-for="demo-menu-top-right-{{i}}">
-                            <li class="mdl-menu__item" onclick="open_player()">Открыть в плеере</li>
-                            <li class="mdl-menu__item">Another Action</li>
-                        </ul>
-                    </div> -->
                 </div>
             </div>
         </div>
         {%endfor%}
     </div>
-
 </div>
 
 <div class="mdl-grid mdl-cell--12-col">
     <h4>Последние ссылки</h4>
     <div class="mdl-grid mdl-cell--12-col">
+    {%for i in links%}
+    <div class="mdl-cell mdl-cell--2-col mdl-card mdl-card-square mdl-shadow--2dp">
+        <div class=" mdl-card__supporting-text mdl-card--expand">
+            <span style="overflow-wrap: break-word;">{{i.link}}</span>
+          </div>
+        <div class="mdl-card__actions mdl-card--border">
+            <div class="mdl-grid mdl-grid--no-spacing">
+                <div class="mdl-cell mdl-cell--1-col">
+                    <a href='{{i.link}}' target="_blank" class="mdl-button mdl-js-button mdl-button--icon">
+                        <abbr title="Открыть в новой вкладке">
+                            <i class="material-icons">open_in_browser</i>
+                        </abbr>
+                    </a>
+                </div>
+                <div class=" mdl-layout-spacer"></div>
+                <div class="mdl-cell mdl-cell--1-col" style="transform: translateX(-8px)">
+                    <button id="menu-top-right-{{i}}" class="mdl-button mdl-js-button mdl-button--icon">
+                        <abbr title="Открыть в плеере"><i class="material-icons">delete</i></abbr>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
     </div>
 </div>
 
