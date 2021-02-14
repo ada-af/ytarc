@@ -10,5 +10,6 @@ App = Flask(__name__)
 App.config["THREADS_PER_PAGE"] = 2
 App.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///storage.db" 
 App.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# App.config['SQLALCHEMY_ECHO'] = True
 
 db = SQLAlchemy(App)

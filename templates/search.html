@@ -1,0 +1,92 @@
+{%extends "base.j2"%}
+
+{%block content%}
+<div class="mdl-grid">
+    <div class=" mdl-cell--1-col"></div>
+    <div class="mdl-grid mdl-cell mdl-cell--10-col">
+        <div class="mdl-grid mdl-cell--10-col">
+            <div class="mdl-grid mdl-cell--12-col">
+                {%for i in results%}
+                <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col">
+                    <div class="mdl-card__title mdl-card--expand"
+                        style="color: #fff; background: url('{%if i.preview%}/preview/{{i.id}}.webp{%endif%}') center / contain no-repeat space {{bg_color(i.filetype)}};">
+                        {{i.title or ""}}
+                    </div>
+                    <div class="mdl-card__actions mdl-card--border">
+                        {% if i.filename%}
+                        <div class="mdl-grid mdl-grid--no-spacing">
+                            <div class="mdl-cell">
+                                <a href="/object/{{i.id}}?q={{g.q}}"
+                                    class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                    Перейти
+                                </a>
+                            </div>
+
+                            <div class=" mdl-layout-spacer"></div>
+
+                            <div class="mdl-cell mdl-cell--1-col" style="transform: translateX(-8px)">
+                                <button onclick="run_player({{i.id}})"
+                                    class="mdl-button mdl-js-button mdl-button--icon">
+                                    <abbr title="Открыть в плеере"><i class="material-icons">play_arrow</i></abbr>
+                                </button>
+                            </div>
+                        </div>
+                        {%else%}
+                        <div class="mdl-grid mdl-grid--no-spacing">
+                            <div class="mdl-cell">
+                                <a onclick="load_object({{i.id}}, this)"
+                                    class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                    Загрузить
+                                </a>
+                            </div>
+                            <div class=" mdl-layout-spacer"></div>
+                            <div class="mdl-spinner mdl-js-spinner is-active hidden"></div>
+                        </div>
+                        {%endif%}
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+            <div class=" mdl-cell mdl-cell--12-col mdl-grid">
+                <div class=" mdl-layout-spacer"></div>
+                <div>
+                    <a {%if page == 1%}disabled{%else%}href="/search/1?q={{g.q}}" {%endif%}
+                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                        {%if page == 1%}disabled{%endif%}>
+                        1
+                    </a>
+                    {%if pages > 1%}
+                        {%if (page-3 < 2)%}
+                            {%else%}
+                            ...
+                        {%endif%}
+                        {%if pages > 2%}
+                            {%for i in range(2, pages)%}
+                                {%if (i == page) or (i == 1) or (3 > page-i and 3 > i-page) or (i == pages)%}
+                                    <a {%if page == i%}disabled{%else%}href="/search/{{i}}?q={{g.q}}" {%endif%}
+                                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                                        {%if page == i%}disabled{%endif%}>
+                                        {{i}}
+                                    </a>
+                                {%endif%}
+                            {%endfor%}
+                        {%endif%}
+                            {%if (pages-page <= 3)%}
+                            {%else%}
+                                ...
+                            {%endif%}
+                        <a {%if page == pages%}disabled{%else%}href="/search/{{pages}}?q={{g.q}}" {%endif%}
+                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                            {%if page == pages%}disabled{%endif%}>
+                            {{pages}}
+                        </a>
+                    {%endif%}
+                </div>
+                <div class=" mdl-layout-spacer"></div>
+            </div>
+        </div>
+    </div>
+    <div class=" mdl-cell--1-col"></div>
+</div>
+
+{%endblock%}

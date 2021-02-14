@@ -1,12 +1,9 @@
 <header class="mdl-layout__header mdl-shadow--4dp mdl-color--deep-purple-400 mdl-layout__header--seamed"
     style="visibility: visible !important; display:block">
     <div class="mdl-layout__header-row">
-        {# {%if title%}
-            <h4>{{title}}</h4>
-        {%endif%} #}
         <div class=" mdl-layout-spacer"></div>
         <div class="mdl-navigation">
-            <span contenteditable class=" mdl-textfield__input" id='search_input'>
+            <span contenteditable class=" mdl-textfield__input" id='search_input'>{%if g.q%}{{g.q}}{%endif%}</span>
         </div>
         <div style="width: 5px;"></div>
         <form id="search" method="GET" action="/search">
@@ -21,14 +18,17 @@
     <nav class="mdl-navigation">
         <a class="mdl-navigation__link" href="/">Главная</a>
         <a class="mdl-navigation__link" href="/subscriptions">Отслеживаемые url</a>
-        <a class="mdl-navigation__link" href="/update">Обновить библиотеку
+        <a class="mdl-navigation__link" href="/update">
             {%if update_status()%}
+            Обновление...
             <div id="p1" class="mdl-progress mdl-js-progress"></div>
             <script>
                 document.querySelector('#p1').addEventListener('mdl-componentupgraded', function () {
                     this.MaterialProgress.setProgress({{ update_status() }});
             });
             </script>
+            {%else%}
+            Обновить библиотеку
             {%endif%}
         </a>
 

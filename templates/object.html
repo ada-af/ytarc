@@ -1,0 +1,157 @@
+{%extends "base.j2"%}
+
+{%block content%}
+<div class="mdl-grid">
+    <div class="mdl-cell--2-col"></div>
+    <div class="mdl-cell mdl-cell--8-col mdl-grid">
+        <button id="file-menu" class="mdl-button mdl-js-button mdl-button--icon">
+            <i class="material-icons">more_vert</i>
+        </button>
+
+        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="file-menu">
+            <li onclick="load_object({{object.id}}, false)" class="mdl-menu__item">Перезагрузить</li>
+            <li onclick="delete_object({{object.id}})" class="mdl-menu__item">Удалить файл</li>
+        </ul>
+
+        <div class="mdl-card mdl-shadow--2dp mdl-cell--12-col" style="height: 60vh;">
+            <div class=" mdl-card__subtitle-text mdl-card--expand mdl-grid--no-spacing mdl-grid">
+                {%if object.filetype == 'video'%}
+                <video controls class="md-cell" style="max-height: 60vh; max-width:100%; object-fit: contain">
+                    <source src="/storage/{{object.filename[:2]}}/{{object.filename}}">
+                </video>
+                {%else%}
+                <object style="max-height: 60vh; max-width:100%; object-fit: contain"
+                    data="/storage/{{object.filename[:2]}}/{{object.filename}}"></object>
+                {%endif%}
+            </div>
+        </div>
+    </div>
+    <div class="mdl-cell--2-col"></div>
+</div>
+
+{%if object.description%}
+<div class="mdl-grid" style="transform: translateY(-24px);">
+    <div class="mdl-cell--2-col"></div>
+    <div class="mdl-cell mdl-cell--8-col mdl-grid">
+        <div class="mdl-card mdl-shadow--2dp mdl-cell--12-col">
+            <div class=" mdl-card__supporting-text mdl-card--expand" style="width: 95%;">
+                <div class="mdl-grid mdl-grid--no-spacing">
+                    {%if object.title%}
+                    <h4 style="margin-top: 0; color: black">{{object.title}}</h4>
+                    {%endif%}
+                    <div class=" mdl-layout-spacer"></div>
+                    <button onclick="expand()" class="mdl-button mdl-js-button mdl-button--icon">
+                        <abbr title="Развернуть"><i class=" material-icons" style=" color: black">expand</i></abbr>
+                    </button>
+                </div>
+                <p id='desc' class="shrunk">{{object.description.replace('\n', "<br>")|safe}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="mdl-cell--2-col"></div>
+</div>
+{%endif%}
+
+<div class="mdl-grid" style="transform: translateY(-48px);">
+    <div class="mdl-cell--2-col"></div>
+    <div class="mdl-cell mdl-cell--8-col mdl-grid">
+        <div class="mdl-card mdl-shadow--2dp mdl-cell--12-col">
+            <div id='tags-nonedit' class=" mdl-card__supporting-text" style="width: 95%;">
+                <div class="mdl-grid mdl-grid--no-spacing">
+                    <div>
+                        <h4 style="margin-top: 0; color: black">Теги</h4>
+                    </div>
+                    <div class=" mdl-layout-spacer"></div>
+                    <button onclick="edit_tags()" class="mdl-button mdl-js-button mdl-button--icon">
+                        <abbr title="Редактировать теги"><i class=" material-icons"
+                                style=" color: black">edit</i></abbr>
+                    </button>
+                </div>
+                {%for i in object.get_tags()%}
+                <span class="mdl-chip">
+                    <span class="mdl-chip__text" onclick="go_query(this)">{{i.name}}</span>
+                </span>
+                {%endfor%}
+            </div>
+            <div id='tags-edit' class="hidden mdl-card__supporting-text" style="width: 95%;">
+                <div class="mdl-grid mdl-grid--no-spacing">
+                    <div>
+                        <h4 style="margin-top: 0; color: black">Теги</h4>
+                    </div>
+                    <div class=" mdl-layout-spacer"></div>
+                    <button onclick="edit_tags()" class="mdl-button mdl-js-button mdl-button--icon">
+                        <abbr title="Редактировать теги"><i class=" material-icons"
+                                style=" color: black">edit</i></abbr>
+                    </button>
+                </div>
+                {%for i in object.get_tags()%}
+                <span class="mdl-chip mdl-chip--deletable">
+                    <span class="mdl-chip__text">{{i.name}}</span>
+                    <button type="button" class="mdl-chip__action" onclick="remove_tag({{i.id}}, this)"><i
+                            class="material-icons">cancel</i></button>
+                </span>
+                {%endfor%}
+                <span class="mdl-chip mdl-chip--deletable">
+                    <span class="mdl-chip__text">
+                        <input class="mdl-textfield mdl-textfield__input" placeholder="Новый тег">
+                    </span>
+                    <button type="button" class="mdl-chip__action" onclick="add_tag({{object.id}}, this)">
+                        <i class="material-icons">add</i>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="mdl-cell--2-col"></div>
+</div>
+
+<script>
+    function expand() {
+        obj = document.getElementById('desc')
+        obj.classList.toggle('shrunk')
+    }
+    function edit_tags() {
+        document.getElementById('tags-nonedit').classList.toggle('hidden')
+        document.getElementById('tags-edit').classList.toggle('hidden')
+    }
+    function remove_tag(id, div) {
+        xhr = new XMLHttpRequest()
+        xhr.open("DELETE", "/api/tag/delete/" + id, true)
+        xhr.onload = function () {
+            div.parentNode.remove()
+        }
+        xhr.send()
+    }
+    function add_tag(id, div) {
+        tag_value = div.parentNode.children[0].children[0].value
+        xhr = new XMLHttpRequest()
+        xhr.open("PUT", '/api/tag/create/' + id + "?tag=" + tag_value, true)
+        xhr.onload = function () {
+            if (xhr.status == 200) {
+                div.setAttribute('onclick', "remove_tag(" + xhr.responseText + ", this)")
+                div.children[0].innerHTML = 'cancel'
+                div.parentNode.children[0].children[0].outerHTML = '<span class="mdl-chip__text">'+tag_value+'</span>'
+
+                span = document.createElement('span')
+                span.setAttribute('class', 'mdl-chip mdl-chip--deletable')
+                span.innerHTML = '<span class="mdl-chip__text"><input class="mdl-textfield mdl-textfield__input" placeholder="Новый тег"></span><button type="button" class="mdl-chip__action" onclick="add_tag({{object.id}}, this)"><i class="material-icons">add</i></button>'
+                document.getElementById('tags-edit').append(span)
+
+                span = document.createElement('span')
+                span.setAttribute('class', 'mdl-chip')
+                span2 = document.createElement('span')
+                span2.setAttribute('class', 'mdl-chip__text')
+                span2.setAttribute('onclick', 'go_query(this)')
+                span2.innerHTML = tag_value
+                span.append(span2)
+                document.getElementById('tags-nonedit').append(span)
+            }
+        }
+        xhr.send()
+    }
+    function go_query(div) {
+        window.location = "/search?q="+div.innerHTML
+    }
+</script>
+
+{%endblock%}

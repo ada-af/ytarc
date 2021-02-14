@@ -16,6 +16,17 @@
     <script src="{{ url_for('static', filename='js/getmdl-select.min.js') }}"></script>
 </head>
 
+{%macro bg_color(type) -%}
+{%if type == 'music'%}
+#d81b60
+{%elif type == 'photo'%}
+#fb8c00
+{%elif type == 'video'%}
+#43a047
+{%elif type == 'other'%}
+#46B6AC
+{%endif%}
+{%endmacro%}
 
 <body>
     <div class="mdl-layout mdl-js-layout">
@@ -31,12 +42,12 @@
     </a>
     <a href="/editor/new/bulk"><button id="bulk"
             class="mdl-button mdl-button--fab mdl-button--colored mdl-color--blue-600 plusbtn">∞</button></a>
-    <a href="/upload">
+    <!-- <a href="/upload">
         <button id="file_upload" class="mdl-button mdl-button--fab mdl-button--colored mdl-color--blue-600 plusbtn">
             <i class=" material-icons">file_upload</i>
         </button>
-    </a>
-    <button id='add' onclick="toggle_btns(['single', 'bulk', 'file_upload', 'add'])"
+    </a> -->
+    <button id='add' onclick="toggle_btns(['single', 'bulk', 'add'])"
         class="mdl-button mdl-button--fab mdl-button--colored plusbtn">+</button>
     </div>
     
@@ -47,6 +58,51 @@
             }
         }
     </script>
+    <script>
+
+        function delete_link(id) {
+            xhr = new XMLHttpRequest()
+            xhr.open("DELETE", "/api/link/delete/" + id, true)
+            xhr.onload = function () {
+                window.location = window.location
+            }
+            xhr.send()
+        }
+        function load_object(id, div) {
+            xhr = new XMLHttpRequest()
+            xhr.open('GET', "/api/load/" + id, true)
+            xhr.onload = function () {
+                window.location = window.location
+            }
+            if (div) {
+                div.classList.add('hidden')
+                div.parentNode.parentNode.children[2].classList.remove('hidden')
+            }
+            xhr.send()
+        }
+        function recheck_link(id) {
+            xhr = new XMLHttpRequest()
+            xhr.open('GET', "/api/link/recheck/" + id, true)
+            xhr.onload = function () {
+                window.location = window.location
+            }
+            xhr.send()
+        }
+        function delete_object(id) {
+            xhr = new XMLHttpRequest()
+            xhr.open("DELETE", "/api/file/delete/" + id, true)
+            xhr.onload = function () {
+                window.location = window.location.href
+            }
+            xhr.send()
+        }
+        function run_player(id) {
+            xhr = new XMLHttpRequest()
+            xhr.open("TOUCH", "/api/system/start/" + id, true)
+            xhr.send()
+        }
+    </script>
+    
 
 </body >
             <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>

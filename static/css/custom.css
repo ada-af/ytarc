@@ -113,3 +113,7 @@
 .hidden {
     display: none;
 }
+
+.shrunk {
+    height: 2ch;
+}
