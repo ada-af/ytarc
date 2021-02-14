@@ -1,4 +1,3 @@
-from re import T
 from routes import preview
 from models import LinkObject, StorageObject, Tag
 from flask.wrappers import Response

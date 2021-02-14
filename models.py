@@ -1,4 +1,3 @@
-from enum import unique
 from config import db
 
 class BaseModel:

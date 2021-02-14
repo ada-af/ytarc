@@ -1,3 +1,4 @@
 pyfladesk
 flask
 flask-sqlalchemy
+youtube-dl
