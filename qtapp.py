@@ -17,8 +17,5 @@ if __name__ == '__main__':
         os.remove('update.lck')
 
     db.create_all()
-    db.session.execute(db.text('PRAGMA journal_mode=WAL;')).fetchone()
-    db.session.execute(db.text('PRAGMA synchronous=OFF;'))
-    db.session.commit()
     # App.run(debug=True, host='0.0.0.0')
     init_gui(App, icon="static/images/icon.png", window_title="RoverStor")
