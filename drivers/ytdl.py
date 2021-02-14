@@ -41,8 +41,10 @@ class Driver(BaseDriver):
     def _calcsha256(self):
         hashfunc = sha256()
         with open("storage/"+self.tmp_fname, 'rb') as f:
-            while len(x := f.read(65535)) > 0:
+            x = f.read(65535)
+            while len() > 0:
                 hashfunc.update(x)
+                x = f.read(65535)
         self.sha256sum = hashfunc.hexdigest()
     
     def getsha256sum(self):
