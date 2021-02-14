@@ -42,7 +42,7 @@ class Driver(BaseDriver):
         hashfunc = sha256()
         with open("storage/"+self.tmp_fname, 'rb') as f:
             x = f.read(65535)
-            while len() > 0:
+            while len(x) > 0:
                 hashfunc.update(x)
                 x = f.read(65535)
         self.sha256sum = hashfunc.hexdigest()
